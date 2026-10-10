@@ -22,6 +22,9 @@
   --no:#a23b2a;        /* não vai */
   --no-soft:#f5dcd6;
   --soil:#4a3624;
+  --blue:#2f6690;      /* ecoponto */
+  --blue-soft:#dbe7f0;
+  --gray-soft:#e7e1d6;
   --ok:#2f7a3a;
   --font-display:"Grandstander","Comic Sans MS",system-ui,sans-serif;
   --font-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -29,11 +32,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1d1813;--panel:#29221b;--ink:#f1e9da;--muted:#b9ab95;--line:#3f352a;
   --green:#7fbf6f;--green-soft:#26361f;--brown:#d39a5d;--brown-soft:#3a2b1c;
-  --no:#ee8a76;--no-soft:#43231d;--soil:#120e0a;--ok:#86c97a;color-scheme:dark}}
+  --no:#ee8a76;--no-soft:#43231d;--soil:#120e0a;--blue:#8cbbe0;--blue-soft:#1f2f3c;--gray-soft:#342d25;--ok:#86c97a;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1d1813;--panel:#29221b;--ink:#f1e9da;--muted:#b9ab95;--line:#3f352a;
   --green:#7fbf6f;--green-soft:#26361f;--brown:#d39a5d;--brown-soft:#3a2b1c;
-  --no:#ee8a76;--no-soft:#43231d;--soil:#120e0a;--ok:#86c97a;color-scheme:dark}
+  --no:#ee8a76;--no-soft:#43231d;--soil:#120e0a;--blue:#8cbbe0;--blue-soft:#1f2f3c;--gray-soft:#342d25;--ok:#86c97a;color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -108,6 +111,18 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--green);outline-
 .bin.v{background:var(--green-soft);color:var(--green)}
 .bin.c{background:var(--brown-soft);color:var(--brown)}
 .bin.x{background:var(--no-soft);color:var(--no)}
+.bin.e{background:var(--blue-soft);color:var(--blue)}
+.bin.l{background:var(--gray-soft);color:var(--ink)}
+.bins.four{grid-template-columns:1fr 1fr}
+.opts{display:grid;gap:8px;margin-top:14px;text-align:left}
+.opt{display:flex;align-items:center;gap:10px;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;font-weight:700}
+.opt:hover:not(:disabled){border-color:var(--green)}
+.opt kbd{font-family:var(--font-body);font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;flex:none}
+.opt.good{border-color:var(--ok);background:var(--green-soft)}
+.opt.bad{border-color:var(--no);background:var(--no-soft)}
+.opt:disabled{cursor:default}
+.card.quiz{width:min(100%,460px);touch-action:auto;user-select:text;-webkit-user-select:text}
+.card.quiz .name{font-size:1.35rem}
 .bin.yes{background:var(--green-soft);color:var(--green)}
 .bin.hot{border-color:currentColor;transform:scale(1.04)}
 .bin:disabled{opacity:.55;cursor:default}
@@ -151,8 +166,9 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   .game{grid-template-columns:170px 1fr}
   .play{display:grid;grid-template-columns:minmax(0,1fr) 230px;grid-template-rows:auto 1fr;gap:16px 20px;align-items:center}
   .play .progress{grid-column:1 / -1}
+  .play:has(#bins[hidden]) .stage{grid-column:1 / -1}
   .stage{min-height:0}
-  .bins.two,.bins.three{grid-template-columns:1fr;align-self:center}
+  .bins.two,.bins.three,.bins.four{grid-template-columns:1fr;align-self:center}
   .bin{flex-direction:row;justify-content:flex-start;gap:12px;padding:14px 16px;text-align:left}
   .bin .lb{text-align:left}
   .bin small{text-align:left}
@@ -167,7 +183,33 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   .verdict{margin-top:6px}
   .next{margin-top:10px;padding:10px 18px}
   .binviz svg{max-width:140px}
+  .card.quiz .name{font-size:1.15rem}
+  .opts{margin-top:10px;gap:6px}
+  .opt{padding:8px 10px}
+  .why{margin-top:6px}
 }
+@media (max-height:760px){
+  .card.right .emoji,.card.wrong .emoji{font-size:2.6rem}
+  .card.right .name,.card.wrong .name{margin-top:2px}
+}
+@media (max-height:520px){
+  .top .logo{width:60px}
+  .card.quiz .eyebrow{display:none}
+  .card .emoji{font-size:3rem}
+}
+
+/* menu de entrada compacto: níveis lado a lado */
+.intro:not([hidden]){display:flex;flex-direction:column;gap:16px;align-items:stretch}
+.intro-head{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:20px;align-items:center}
+.intro h2{font-size:clamp(1.9rem,4.5vw,2.8rem)}
+.intro .modes{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:0}
+.intro .mode{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.intro .mode .chip{font-size:1.6rem;line-height:1}
+.intro .mode b{font-size:1.15rem;line-height:1.15}
+.intro .mode small{line-height:1.3}
+.intro .rule{max-width:none;margin-top:0}
+@media (max-width:640px){ .intro-head{grid-template-columns:1fr} #introBin{display:none} }
+@media (max-height:600px){ .intro h2{font-size:1.7rem} .intro p{margin-top:.3em} .mode{padding:10px 12px} .mode .chip{font-size:1.5rem} }
 </style>
 </head><body>
 
@@ -184,19 +226,20 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
 
   <!-- ECRÃ INICIAL -->
   <section class="intro" id="vIntro">
-    <div>
+    <div class="intro-head">
+      <div>
       <p class="eyebrow">Mercado “À Mão de Semear” · Compostagem</p>
       <h2>O lixo que não é lixo</h2>
       <p>Grande parte do que sobra na cantina e na sala é comida para a terra. Arrasta cada resto para o sítio certo, ou toca no botão. Cada acerto junta uma camada ao compostor.</p>
+      </div>
+      <div class="binviz" aria-hidden="true" id="introBin"></div>
+    </div>
       <div class="modes">
         <button class="mode" id="mEasy" type="button"><span class="chip" aria-hidden="true">🪣</span><b>Vai ou não vai?</b><small>Duas caixas. Para os mais novos (1.º e 2.º anos).</small></button>
         <button class="mode" id="mHard" type="button"><span class="chip" aria-hidden="true">🍂</span><b>Verde, castanho ou não vai?</b><small>Três caixas e a regra do equilíbrio (3.º e 4.º anos).</small></button>
+        <button class="mode" id="mPro" type="button"><span class="chip" aria-hidden="true">🪱</span><b>Mestre do compostor</b><small>Quatro destinos e perguntas sobre como cuidar do compostor (2.º ciclo).</small></button>
       </div>
-    </div>
-    <div>
-      <div class="binviz" aria-hidden="true" id="introBin"></div>
-      <p class="rule"><b>A regra de ouro:</b> misturar mais ou menos uma parte de <b>verdes</b> (húmidos, como cascas de fruta) e uma parte de <b>castanhos</b> (secos, como folhas secas). Só verdes fica húmido e cheira mal; só castanhos demora imenso tempo.</p>
-    </div>
+    <p class="rule"><b>A regra de ouro:</b> misturar mais ou menos uma parte de <b>verdes</b> (húmidos, como cascas de fruta) e uma parte de <b>castanhos</b> (secos, como folhas secas). Só verdes fica húmido e cheira mal; só castanhos demora imenso tempo.</p>
   </section>
 
   <!-- JOGO -->
@@ -256,30 +299,47 @@ const ITEMS = [
   // Pode ir, sem grupo
   {e:"🥚",n:"Cascas de ovo esmagadas",c:"o",why:"Podem ir para o compostor, desde que bem esmagadas."},
   // Não vai
-  {e:"🍗",n:"Osso de frango",c:"x",why:"Carne e ossos não entram: cheiram mal e atraem animais.",where:"Vai para o caixote do lixo comum."},
-  {e:"🐟",n:"Espinhas de peixe",c:"x",why:"Peixe e espinhas não entram no compostor.",where:"Vai para o caixote do lixo comum."},
-  {e:"🦐",n:"Cascas de camarão",c:"x",why:"Marisco não entra no compostor, nem as cascas.",where:"Vai para o caixote do lixo comum."},
-  {e:"🧀",n:"Pedaço de queijo",c:"x",why:"Lacticínios não entram: apodrecem, cheiram mal e atraem pragas.",where:"Vai para o caixote do lixo comum."},
+  {e:"🍗",n:"Osso de frango",c:"x",d:"l",why:"Carne e ossos não entram: cheiram mal e atraem animais.",where:"Vai para o caixote do lixo comum."},
+  {e:"🐟",n:"Espinhas de peixe",c:"x",d:"l",why:"Peixe e espinhas não entram no compostor.",where:"Vai para o caixote do lixo comum."},
+  {e:"🦐",n:"Cascas de camarão",c:"x",d:"l",why:"Marisco não entra no compostor, nem as cascas.",where:"Vai para o caixote do lixo comum."},
+  {e:"🧀",n:"Pedaço de queijo",c:"x",d:"l",why:"Lacticínios não entram: apodrecem, cheiram mal e atraem pragas.",where:"Vai para o caixote do lixo comum."},
   {e:"🥛",n:"Resto de iogurte",c:"x",why:"Lacticínios não entram no compostor.",where:"O iogurte vai para o lixo comum e o copo lavado vai para o ecoponto amarelo."},
-  {e:"🍟",n:"Batatas fritas",c:"x",why:"Alimentos gordurosos ou cozinhados não entram no compostor.",where:"Vai para o caixote do lixo comum."},
-  {e:"🍝",n:"Esparguete com molho",c:"x",why:"Restos cozinhados, temperados ou com molho não entram.",where:"Vai para o caixote do lixo comum."},
-  {e:"💩",n:"Cocó do cão",c:"x",why:"Fezes de animais domésticos nunca vão para o compostor da horta.",where:"Vai num saquinho para o caixote do lixo comum."},
-  {e:"🥀",n:"Planta doente",c:"x",why:"Plantas doentes ou com pesticidas não entram: a doença passava para o composto e depois para a horta.",where:"Vai para o caixote do lixo comum."},
-  {e:"🍾",n:"Garrafa de vidro",c:"x",why:"Vidro não se decompõe no compostor.",where:"Vai para o ecoponto verde (vidrão)."},
-  {e:"🥫",n:"Lata de atum",c:"x",why:"Metal não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
-  {e:"🧴",n:"Garrafa de plástico",c:"x",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
-  {e:"🥤",n:"Copo de plástico com palhinha",c:"x",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
-  {e:"🗞️",n:"Folheto de publicidade a cores",c:"x",why:"Só entra papel sem tinta. Papel com muita tinta fica de fora.",where:"Vai para o ecoponto azul."},
-  {e:"🔋",n:"Pilha gasta",c:"x",why:"Pilhas e produtos químicos nunca entram: estragavam o composto e a terra.",where:"Vai para o pilhão."}
+  {e:"🍟",n:"Batatas fritas",c:"x",d:"l",why:"Alimentos gordurosos ou cozinhados não entram no compostor.",where:"Vai para o caixote do lixo comum."},
+  {e:"🍝",n:"Esparguete com molho",c:"x",d:"l",why:"Restos cozinhados, temperados ou com molho não entram.",where:"Vai para o caixote do lixo comum."},
+  {e:"💩",n:"Cocó do cão",c:"x",d:"l",why:"Fezes de animais domésticos nunca vão para o compostor da horta.",where:"Vai num saquinho para o caixote do lixo comum."},
+  {e:"🥀",n:"Planta doente",c:"x",d:"l",why:"Plantas doentes ou com pesticidas não entram: a doença passava para o composto e depois para a horta.",where:"Vai para o caixote do lixo comum."},
+  {e:"🍾",n:"Garrafa de vidro",c:"x",d:"e",why:"Vidro não se decompõe no compostor.",where:"Vai para o ecoponto verde (vidrão)."},
+  {e:"🥫",n:"Lata de atum",c:"x",d:"e",why:"Metal não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
+  {e:"🧴",n:"Garrafa de plástico",c:"x",d:"e",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
+  {e:"🥤",n:"Copo de plástico com palhinha",c:"x",d:"e",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
+  {e:"🗞️",n:"Folheto de publicidade a cores",c:"x",d:"e",why:"Só entra papel sem tinta. Papel com muita tinta fica de fora.",where:"Vai para o ecoponto azul."},
+  {e:"🔋",n:"Pilha gasta",c:"x",d:"e",why:"Pilhas e produtos químicos nunca entram: estragavam o composto e a terra.",where:"Vai para o pilhão."}
+];
+
+
+// Perguntas do nível do 2.º ciclo, a partir do Anexo L. A primeira opção é a certa (a ordem é baralhada no jogo).
+const QUIZ = [
+  {q:"Fizeste a prova do punhado e escorreu água. O que fazes?",o:["Junto material castanho seco","Rego um pouco","Junto mais cascas de fruta"],why:"Se escorre água, está húmido demais. Os castanhos secos equilibram a humidade."},
+  {q:"Apertas um punhado de composto e ele esfarela, sem agregar. O que fazes?",o:["Rego um pouco, porque está seco de mais","Nada, está no ponto","Junto folhas secas"],why:"Se esfarela e não agrega, está seco de mais e precisa de um pouco de água. No ponto, a mão fica húmida mas não escorre."},
+  {q:"O compostor cheira mal. Qual é a causa mais provável?",o:["Pouco ar ou verdes a mais","Castanhos a mais","O composto já está pronto"],why:"Um compostor saudável cheira a terra de floresta. Se cheira mal, revolve-se e junta-se material castanho seco."},
+  {q:"Qual deve ser sempre a última camada do compostor?",o:["Castanhos, como folhas secas","Verdes, como cascas de fruta","Terra do canteiro"],why:"Acabar com uma camada de castanhos por cima evita as moscas."},
+  {q:"Onde se deve instalar o compostor?",o:["No chão, em contacto com a terra, à sombra","Em cima de um estrado, ao sol","Dentro da sala de aula"],why:"Em contacto com a terra, os seres do solo podem entrar. A sombra protege-o do calor no verão e do frio no inverno."},
+  {q:"Quem transforma os restos em composto?",o:["Microrganismos, minhocas e outros pequenos seres","O sol e o vento","Só a passagem do tempo"],why:"São os seres vivos do solo que decompõem a matéria orgânica."},
+  {q:"Como sabes que o composto está pronto?",o:["Está escuro, esfarela-se e cheira a terra de floresta","Ainda se veem as cascas inteiras","Está quente e cheira a podre"],why:"Ao fim de alguns meses, o composto pronto retira-se pela parte de baixo do compostor."},
+  {q:"O composto é um fertilizante químico?",o:["Não, é matéria orgânica que melhora a terra","Sim, funciona como um adubo","Só se levar cascas de ovo"],why:"O composto torna o solo mais fofo, ajuda-o a reter a água e devolve-lhe os nutrientes."},
+  {q:"Os verdes são ricos em… e os castanhos em…?",o:["Azoto e carbono","Carbono e azoto","Água e açúcar"],why:"Os verdes são húmidos e ricos em azoto. Os castanhos são secos e ricos em carbono."},
+  {q:"Para que serve a primeira camada de ramos pequenos e folhas secas no fundo?",o:["Deixar o ar circular e a água escorrer","Dar cor ao composto","Afastar as minhocas"],why:"Essa primeira cama areja o monte e não deixa a água ficar parada no fundo."}
 ];
 
 const MODES = {
   easy:{label:"Nível: Vai ou não vai?", plan:{yes:6,x:6},
     bins:[{k:"yes",cls:"yes",ic:"🪣",lb:"Vai para o compostor",sm:"vira terra"},{k:"x",cls:"x",ic:"🚫",lb:"Não vai",sm:"fica de fora"}]},
   hard:{label:"Nível: Verde, castanho ou não vai?", plan:{v:4,k:4,x:4},
-    bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"húmido, azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"seco, carbono"},{k:"x",cls:"x",ic:"🚫",lb:"Não vai",sm:"fica de fora"}]}
+    bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"húmido, azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"seco, carbono"},{k:"x",cls:"x",ic:"🚫",lb:"Não vai",sm:"fica de fora"}]},
+  pro:{label:"Nível: Mestre do compostor (2.º ciclo)",
+    bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"compostor · azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"compostor · carbono"},{k:"e",cls:"e",ic:"♻️",lb:"Ecoponto ou pilhão",sm:"recicla-se"},{k:"l",cls:"l",ic:"🗑️",lb:"Lixo comum",sm:"caixote indiferenciado"}]}
 };
-const NAME = {v:"um verde",k:"um castanho",o:"vai para o compostor",x:"não vai para o compostor"};
+const NAME = {v:"um verde",k:"um castanho",o:"vai para o compostor",x:"não vai para o compostor",e:"vai para o ecoponto ou pilhão",l:"vai para o lixo comum"};
 
 const $ = id => document.getElementById(id);
 let S = null;
@@ -322,11 +382,20 @@ function deal(mode){
     return shuffle(pick(yes,6).concat(pick(no,6)));
   }
   const g = c => ITEMS.filter(i=>i.c===c);
+  if(mode==="pro"){
+    const d = x => ITEMS.filter(i=>i.d===x);
+    const items = shuffle(pick(g("v"),3).concat(pick(g("k"),3),pick(d("e"),3),pick(d("l"),3)));
+    const qs = pick(QUIZ,4).map(q=>({quiz:true,q:q.q,right:q.o[0],opts:shuffle(q.o),why:q.why}));
+    // uma pergunta a cada três restos
+    const out=[]; items.forEach((it,i)=>{ out.push(it); if(i%3===2) out.push(qs[(i-2)/3]); });
+    return out;
+  }
   return shuffle(pick(g("v"),4).concat(pick(g("k"),4),pick(g("x"),4)));
 }
 
 function isRight(item,bin){
   if(S.mode==="easy") return bin==="yes" ? item.c!=="x" : item.c==="x";
+  if(S.mode==="pro") return bin===(item.c==="x"?item.d:item.c);
   return bin===item.c;
 }
 
@@ -355,7 +424,7 @@ function start(mode){
   S = {mode, deck:deal(mode), i:0, ok:0, layers:[], misses:[], answered:false};
   const m = MODES[mode];
   const bins = $("bins");
-  bins.className = "bins " + (m.bins.length===2?"two":"three");
+  bins.className = "bins " + ({2:"two",3:"three",4:"four"})[m.bins.length];
   bins.innerHTML = m.bins.map((b,ix)=>`<button class="bin ${b.cls}" type="button" data-bin="${b.k}"><span class="ic" aria-hidden="true">${b.ic}</span><span class="txt"><span class="lb">${b.lb}</span><small>${b.sm}</small></span><kbd>${ix+1}</kbd></button>`).join("");
   bins.querySelectorAll(".bin").forEach(b=>b.addEventListener("click",()=>answer(b.dataset.bin)));
   $("sTot").textContent = S.deck.length;
@@ -365,7 +434,7 @@ function start(mode){
 
 function renderBalance(){
   const v=S.layers.filter(l=>l==="v").length, k=S.layers.filter(l=>l==="k").length;
-  $("balance").innerHTML = S.mode==="hard"
+  $("balance").innerHTML = S.mode!=="easy"
     ? `Verdes <b>${v}</b> · Castanhos <b>${k}</b>`
     : `Camadas no compostor: <b>${S.layers.length}</b>`;
 }
@@ -377,6 +446,8 @@ function renderCard(){
   $("bar").style.width = (S.i/S.deck.length*100)+"%";
   $("gameBin").innerHTML = binSVG(S.layers,false);
   renderBalance();
+  $("bins").hidden = !!it.quiz;
+  if(it.quiz){ renderQuiz(it); return; }
   $("stage").innerHTML = `<div class="card enter" id="card" tabindex="0" aria-live="polite">
       <span class="emoji" aria-hidden="true">${it.e}</span>
       <div class="name">${it.n}</div>
@@ -384,6 +455,38 @@ function renderCard(){
     </div>`;
   document.querySelectorAll(".bin").forEach(b=>{b.disabled=false;b.classList.remove("pick","hot");});
   enableDrag($("card"));
+}
+
+
+function showNext(){
+  const n=$("next"); if(!n) return;
+  requestAnimationFrame(()=>{ const r=n.getBoundingClientRect(); if(r.bottom>window.innerHeight-8 || r.top<0) window.scrollBy({top:r.bottom-window.innerHeight+16,behavior:"auto"}); });
+}
+
+function renderQuiz(it){
+  $("stage").innerHTML = `<div class="card quiz enter" id="card" aria-live="polite">
+      <p class="eyebrow">Pergunta do compostor</p>
+      <div class="name">${it.q}</div>
+      <div class="opts">${it.opts.map((o,i)=>`<button class="opt" type="button" data-i="${i}"><kbd>${i+1}</kbd><span>${o}</span></button>`).join("")}</div>
+    </div>`;
+  document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answerQuiz(+b.dataset.i)));
+}
+
+function answerQuiz(i){
+  if(!S || S.answered) return;
+  S.answered=true;
+  const it=S.deck[S.i], ok=it.opts[i]===it.right;
+  Sound.play(ok?"ok":"ko");
+  if(ok) S.ok++; else S.misses.push({e:"❓",n:it.q,why:"Resposta certa: "+it.right+". "+it.why});
+  $("sOk").textContent=S.ok;
+  document.querySelectorAll(".opt").forEach((b,j)=>{ b.disabled=true; if(it.opts[j]===it.right) b.classList.add("good"); else if(j===i) b.classList.add("bad"); else b.hidden=true; });
+  const card=$("card"); card.classList.add(ok?"right":"wrong");
+  card.insertAdjacentHTML("beforeend",`<div class="verdict ${ok?"ok":"ko"}">${ok?"Certo!":"Não é bem assim."}</div>
+    <p class="why">${it.why}</p>
+    <button class="next" id="next" type="button">${S.i+1<S.deck.length?"Seguinte":"Ver resultado"}</button>`);
+  $("next").addEventListener("click",next);
+  $("next").focus({preventScroll:true});
+  showNext();
 }
 
 function answer(bin){
@@ -394,12 +497,13 @@ function answer(bin){
   if(ok){S.ok++; S.layers.push(it.c==="x"?null:it.c); S.layers=S.layers.filter(Boolean);}
   else S.misses.push(it);
   $("sOk").textContent=S.ok;
-  $("gameBin").innerHTML = binSVG(S.layers, !ok && bin!=="x" && it.c==="x");
+  $("gameBin").innerHTML = binSVG(S.layers, !ok && it.c==="x" && ["yes","v","k"].includes(bin));
   renderBalance();
   document.querySelectorAll(".bin").forEach(b=>{b.disabled=true; if(b.dataset.bin===bin) b.classList.add("pick");});
   const card=$("card");
   card.style.transform=""; card.classList.add(ok?"right":"wrong");
-  const head = ok ? "Certo!" : `Ups… ${it.c==="x"||it.c==="o"?"":"é "}${NAME[S.mode==="easy"&&it.c!=="x"?"o":it.c]}.`;
+  const key = S.mode==="easy" ? (it.c==="x"?"x":"o") : S.mode==="pro" && it.c==="x" ? it.d : it.c;
+  const head = ok ? "Certo!" : `Ups… ${key==="v"||key==="k"?"é ":""}${NAME[key]}.`;
   card.innerHTML = `<span class="emoji" aria-hidden="true">${it.e}</span>
     <div class="name">${it.n}</div>
     <div class="verdict ${ok?"ok":"ko"}">${head.charAt(0).toUpperCase()+head.slice(1)}</div>
@@ -408,6 +512,7 @@ function answer(bin){
     <button class="next" id="next" type="button">${S.i+1<S.deck.length?"Seguinte":"Ver resultado"}</button>`;
   $("next").addEventListener("click",next);
   $("next").focus({preventScroll:true});
+  showNext();
 }
 
 function next(){
@@ -423,14 +528,19 @@ function finish(){
   $("endScore").textContent = `${ok}/${n}`;
   $("endTitle").textContent = ok===n ? "Guardião do compostor!" : ok>=n*0.75 ? "Muito bem!" : ok>=n/2 ? "Estás quase lá" : "Vamos tentar outra vez?";
   let msg;
-  if(S.mode==="hard"){
+  if(S.mode!=="easy"){
     const v=S.layers.filter(l=>l==="v").length, k=S.layers.filter(l=>l==="k").length;
-    msg = v===k ? `O teu compostor ficou equilibrado: ${v} camadas de verdes e ${k} de castanhos, uma parte de cada. Assim dá o melhor composto.`
+    const cam = x => x===1 ? "1 camada" : `${x} camadas`;
+    msg = v===k ? `O teu compostor ficou equilibrado: ${cam(v)} de verdes e ${cam(k)} de castanhos, uma parte de cada. Assim dá o melhor composto.`
       : v>k ? `Ficaram mais verdes (${v}) do que castanhos (${k}). Um compostor assim fica húmido e pode cheirar mal: junta folhas secas.`
       : `Ficaram mais castanhos (${k}) do que verdes (${v}). Um compostor assim demora imenso tempo a decompor: junta restos de fruta e legumes crus.`;
     msg += " E não te esqueças: acaba sempre com uma camada de castanhos por cima, para não atrair moscas.";
   } else {
     msg = "Tudo o que entrou no compostor vai virar um material escuro, com cheiro a terra molhada, que volta para os canteiros da horta.";
+  }
+  if(S.mode==="pro"){
+    const qn=S.deck.filter(d=>d.quiz).length, qm=S.misses.filter(m=>m.e==="❓").length;
+    msg += ` Nas perguntas sobre como cuidar do compostor acertaste ${qn-qm} de ${qn}.`;
   }
   $("endMsg").textContent = msg;
   Sound.play("end", ok>=n*0.75);
@@ -465,8 +575,9 @@ function enableDrag(card){
 
 document.addEventListener("keydown",e=>{
   if(!S || $("vGame").hidden) return;
-  if(!S.answered && /^[1-3]$/.test(e.key)){
-    const b=document.querySelectorAll(".bin")[+e.key-1]; if(b) answer(b.dataset.bin);
+  if(!S.answered && /^[1-4]$/.test(e.key)){
+    if(S.deck[S.i].quiz){ if(+e.key<=S.deck[S.i].opts.length) answerQuiz(+e.key-1); }
+    else { const b=document.querySelectorAll(".bin")[+e.key-1]; if(b) answer(b.dataset.bin); }
   } else if(S.answered && e.key==="Enter" && document.activeElement?.id!=="next"){ next(); }
 });
 
@@ -474,6 +585,7 @@ $("snd").addEventListener("click",()=>{ Sound.toggle(); renderSound(); Sound.pla
 renderSound();
 $("mEasy").addEventListener("click",()=>start("easy"));
 $("mHard").addEventListener("click",()=>start("hard"));
+$("mPro").addEventListener("click",()=>start("pro"));
 $("again").addEventListener("click",()=>start(S.mode));
 $("other").addEventListener("click",()=>show("vIntro"));
 $("quit").addEventListener("click",()=>show("vIntro"));
