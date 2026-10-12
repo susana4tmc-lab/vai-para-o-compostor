@@ -203,18 +203,43 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   .card .emoji{font-size:3rem}
 }
 
-/* menu de entrada compacto: níveis lado a lado */
-.intro:not([hidden]){display:flex;flex-direction:column;gap:16px;align-items:stretch}
-.intro-head{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:20px;align-items:center}
-.intro h2{font-size:clamp(1.9rem,4.5vw,2.8rem)}
-.intro .modes{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:0}
-.intro .mode{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-.intro .mode .chip{font-size:1.6rem;line-height:1}
-.intro .mode b{font-size:1.15rem;line-height:1.15}
-.intro .mode small{line-height:1.3}
-.intro .rule{max-width:none;margin-top:0}
-@media (max-width:640px){ .intro-head{grid-template-columns:minmax(0,1fr) 84px;gap:12px;align-items:start} .intro-head p:not(.eyebrow){grid-column:1/-1} .intro-head>div:first-child{display:contents} #introBin{grid-column:2;grid-row:1/3;align-self:center} .brand h1{font-size:1.25rem} .top{flex-wrap:nowrap} .top:has(.score:not([hidden])){flex-wrap:wrap} .top:has(.score:not([hidden])) .topright{width:100%;justify-content:space-between} }
-@media (max-height:600px){ .intro h2{font-size:1.7rem} .intro p{margin-top:.3em} .mode{padding:10px 12px} .mode .chip{font-size:1.5rem} }
+/* ecrã 1: entrada limpa (compostor grande e animado + Jogar); ecrã 2: escolher o nível */
+.intro:not([hidden]){display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;flex:1}
+.intro h2{font-size:clamp(2rem,8vw,3.2rem)}
+.intro .lead{margin:0;max-width:40ch;font-size:1.05rem}
+@media (max-height:500px){ .intro .lead{font-size:.95rem;line-height:1.35} .intro h2{font-size:1.9rem} }
+.hero{position:relative;width:min(62vw,250px,36vh);padding-top:min(14vw,56px,8vh)}
+.hero svg{display:block;width:100%;height:auto}
+.hero .drop{position:absolute;left:50%;top:0;font-size:min(11vw,44px,7vh);line-height:1;transform:translateX(-50%);opacity:0;pointer-events:none}
+.hero .drop.go{animation:fall .75s cubic-bezier(.45,0,.9,.6) forwards}
+@keyframes fall{0%{opacity:0;transform:translate(-50%,-20%) rotate(-10deg)}15%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(-50%,190%) rotate(14deg) scale(.7)}}
+.hero .newlayer{transform-box:fill-box;transform-origin:bottom;animation:grow .35s ease-out}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.playbtn{margin-top:6px;background:var(--green);color:#fff;border:0;border-radius:99px;padding:14px 46px;font-family:var(--font-display);font-size:1.6rem;font-weight:800;box-shadow:0 4px 0 color-mix(in srgb,var(--green) 60%,#000)}
+.playbtn:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--green) 60%,#000)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .playbtn{color:#14210f}}
+:root[data-theme="dark"] .playbtn{color:#14210f}
+@media (min-width:641px) and (max-height:600px), (orientation:landscape) and (max-height:500px){
+  .intro:not([hidden]){display:grid;grid-template-columns:auto minmax(0,26rem);justify-content:center;align-items:center;gap:8px 32px;text-align:left}
+  .intro .hero{grid-row:1/5;width:min(30vw,60vh,230px)}
+  .intro .playbtn{justify-self:start}
+}
+.levels:not([hidden]){display:flex;flex-direction:column;gap:12px;flex:1}
+.levels-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.levels h2{font-size:clamp(1.6rem,6vw,2.2rem)}
+.lvls{display:grid;gap:10px}
+.lvl{display:grid;grid-template-columns:2.4rem minmax(0,1fr) auto;align-items:center;gap:2px 12px;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.lvl:hover{border-color:var(--green)}
+.lvl .chip{grid-row:span 2;font-size:1.9rem;line-height:1;text-align:center}
+.lvl b{font-family:var(--font-display);font-size:1.15rem;line-height:1.15}
+.lvl small{grid-column:2;color:var(--muted);line-height:1.3}
+.lvl .age{grid-column:3;grid-row:1/3;font-size:.78rem;font-weight:700;color:var(--green);background:var(--green-soft);border-radius:99px;padding:3px 9px;white-space:nowrap}
+.levels .rule{max-width:none;margin:0;font-size:.95rem}
+@media (max-width:420px){ .lvl{grid-template-columns:2.2rem minmax(0,1fr)} .lvl .age{grid-column:2;grid-row:auto;justify-self:start;margin-top:4px} }
+@media (min-width:641px){ .lvls{grid-template-columns:repeat(3,1fr)} .lvl{grid-template-columns:1fr;align-content:start;gap:4px;padding:12px 14px} .lvl .chip,.lvl small,.lvl .age{grid-column:auto;grid-row:auto;text-align:left;justify-self:start} }
+@media (max-height:520px){ .levels:not([hidden]){gap:8px} .levels .rule{font-size:.85rem;padding:8px 12px} .lvl .chip{font-size:1.5rem} }
+@media (max-width:640px){ .brand h1{font-size:1.25rem} .top{flex-wrap:nowrap} .top:has(.score:not([hidden])){flex-wrap:wrap} .top:has(.score:not([hidden])) .topright{width:100%;justify-content:space-between} }
+@media (prefers-reduced-motion:reduce){ .hero .drop{display:none} }
 </style>
 </head><body>
 
@@ -229,21 +254,26 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
     </div></div>
   </header>
 
-  <!-- ECRÃ INICIAL -->
+  <!-- ECRÃ 1: ENTRADA -->
   <section class="intro" id="vIntro">
-    <div class="intro-head">
-      <div>
-      <p class="eyebrow">Mercado “À Mão de Semear” · Compostagem</p>
-      <h2>O lixo que não é lixo</h2>
-      <p>Grande parte do que sobra na cantina e na sala é comida para a terra. Arrasta cada resto para o sítio certo, ou toca no botão. Cada acerto junta uma camada ao compostor.</p>
-      </div>
-      <div class="binviz" aria-hidden="true" id="introBin"></div>
+    <p class="eyebrow">Mercado “À Mão de Semear” · Compostagem</p>
+    <h2>O lixo que não é lixo</h2>
+    <div class="hero" aria-hidden="true"><span class="drop" id="heroDrop"></span><div id="introBin"></div></div>
+    <p class="lead">Grande parte do que sobra na cantina e na sala é comida para a terra. Arrasta cada resto para o sítio certo, ou toca no botão. Cada acerto junta uma camada ao compostor.</p>
+    <button class="playbtn" id="go" type="button">Jogar ▶</button>
+  </section>
+
+  <!-- ECRÃ 2: NÍVEIS -->
+  <section class="levels" id="vLevels" hidden>
+    <div class="levels-head">
+      <h2>Escolhe o nível</h2>
+      <button class="linkbtn" id="home" type="button">← Início</button>
     </div>
-      <div class="modes">
-        <button class="mode" id="mEasy" type="button"><span class="chip" aria-hidden="true">🪣</span><b>Vai ou não vai?</b><small>Duas caixas. Para os mais novos (1.º e 2.º anos).</small></button>
-        <button class="mode" id="mHard" type="button"><span class="chip" aria-hidden="true">🍂</span><b>Verde, castanho ou não vai?</b><small>Três caixas e a regra do equilíbrio (3.º e 4.º anos).</small></button>
-        <button class="mode" id="mPro" type="button"><span class="chip" aria-hidden="true">🪱</span><b>Mestre do compostor</b><small>Quatro destinos e perguntas sobre como cuidar do compostor (2.º ciclo).</small></button>
-      </div>
+    <div class="lvls">
+      <button class="lvl" id="mEasy" type="button"><span class="chip" aria-hidden="true">🪣</span><b>Vai ou não vai?</b><small>Duas caixas.</small><span class="age">1.º e 2.º anos</span></button>
+      <button class="lvl" id="mHard" type="button"><span class="chip" aria-hidden="true">🍂</span><b>Verde, castanho ou não vai?</b><small>Três caixas e a regra do equilíbrio.</small><span class="age">3.º e 4.º anos</span></button>
+      <button class="lvl" id="mPro" type="button"><span class="chip" aria-hidden="true">🪱</span><b>Mestre do compostor</b><small>Quatro destinos e perguntas sobre o compostor.</small><span class="age">2.º ciclo</span></button>
+    </div>
     <p class="rule"><b>A regra de ouro:</b> misturar mais ou menos uma parte de <b>verdes</b> (húmidos, como cascas de fruta) e uma parte de <b>castanhos</b> (secos, como folhas secas). Só verdes fica húmido e cheira mal; só castanhos demora imenso tempo.</p>
   </section>
 
@@ -422,7 +452,7 @@ function binSVG(layers,warn){
   </svg>`;
 }
 
-function show(view){["vIntro","vGame","vEnd"].forEach(v=>$(v).hidden = v!==view); $("score").hidden = view!=="vGame";}
+function show(view){["vIntro","vLevels","vGame","vEnd"].forEach(v=>$(v).hidden = v!==view); $("score").hidden = view!=="vGame";}
 
 function start(mode){
   Sound.play("pick");
@@ -433,6 +463,7 @@ function start(mode){
   bins.innerHTML = m.bins.map((b,ix)=>`<button class="bin ${b.cls}" type="button" data-bin="${b.k}"><span class="ic" aria-hidden="true">${b.ic}</span><span class="txt"><span class="lb">${b.lb}</span><small>${b.sm}</small></span><kbd>${ix+1}</kbd></button>`).join("");
   bins.querySelectorAll(".bin").forEach(b=>b.addEventListener("click",()=>answer(b.dataset.bin)));
   $("sTot").textContent = S.deck.length;
+  if(history.state?.v!=="game") try{ history.pushState({v:"game"},""); }catch(e){}
   show("vGame");
   renderCard();
 }
@@ -592,9 +623,30 @@ $("mEasy").addEventListener("click",()=>start("easy"));
 $("mHard").addEventListener("click",()=>start("hard"));
 $("mPro").addEventListener("click",()=>start("pro"));
 $("again").addEventListener("click",()=>start(S.mode));
-$("other").addEventListener("click",()=>show("vIntro"));
-$("quit").addEventListener("click",()=>show("vIntro"));
-$("introBin").innerHTML = binSVG(["k","v","k","v","k","v","k"],false);
+// Navegação: o botão «voltar» do telemóvel recua um ecrã em vez de sair do jogo
+function toLevels(){ if(history.state?.v==="game") history.back(); else show("vLevels"); }
+$("other").addEventListener("click",toLevels);
+$("quit").addEventListener("click",toLevels);
+$("go").addEventListener("click",()=>{ Sound.play("pick"); try{ history.pushState({v:"levels"},""); }catch(e){} show("vLevels"); });
+$("home").addEventListener("click",()=>{ if(history.state?.v==="levels") history.back(); else show("vIntro"); });
+addEventListener("popstate",e=>{ const v=e.state?.v; show(v==="game"||v==="levels"?"vLevels":"vIntro"); });
+try{ history.replaceState(null,""); }catch(e){}
+
+// Ecrã de entrada: restos a cair no compostor, que vai ganhando camadas
+(function hero(){
+  const bin=$("introBin"), drop=$("heroDrop");
+  const pool=[["🍌","v"],["🍂","k"],["🥕","v"],["📦","k"],["🍎","v"],["🪵","k"],["☕","v"],["🍂","k"]];
+  let layers=["k","v","k"], n=0;
+  const draw=fresh=>{ bin.innerHTML=binSVG(layers,false); if(fresh){ const r=bin.querySelectorAll("rect")[1+layers.length]; if(r) r.classList.add("newlayer"); } };
+  draw(false);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ layers=["k","v","k","v","k","v","k","v","k"]; draw(false); return; }
+  setInterval(()=>{
+    if($("vIntro").hidden || document.hidden) return;
+    const [e,c]=pool[n++%pool.length];
+    drop.textContent=e; drop.classList.remove("go"); void drop.offsetWidth; drop.classList.add("go");
+    setTimeout(()=>{ layers.push(c); if(layers.length>11) layers=["k","v","k"]; draw(true); },620);
+  },1300);
+})();
 })();
 </script>
 </body></html>
