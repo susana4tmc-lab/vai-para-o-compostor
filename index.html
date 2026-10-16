@@ -147,6 +147,7 @@ button:focus-visible,.card:focus-visible{outline:3px solid var(--green);outline-
 .actions button.primary{background:var(--ink);color:var(--bg)}
 
 footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+footer a{color:inherit;overflow-wrap:anywhere}
 
 @media (max-width:640px){
   .intro,.game,.end{grid-template-columns:1fr}
@@ -257,7 +258,7 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   <!-- ECRÃ 1: ENTRADA -->
   <section class="intro" id="vIntro">
     <p class="eyebrow">Mercado “À Mão de Semear” · Compostagem</p>
-    <h2>O lixo que não é lixo</h2>
+    <h2>Resíduos que não são lixo</h2>
     <div class="hero" aria-hidden="true"><span class="drop" id="heroDrop"></span><div id="introBin"></div></div>
     <p class="lead">Grande parte do que sobra na cantina e na sala é comida para a terra. Arrasta cada resto para o sítio certo, ou toca no botão. Cada acerto junta uma camada ao compostor.</p>
     <button class="playbtn" id="go" type="button">Jogar ▶</button>
@@ -270,8 +271,8 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
       <button class="linkbtn" id="home" type="button">← Início</button>
     </div>
     <div class="lvls">
-      <button class="lvl" id="mEasy" type="button"><span class="chip" aria-hidden="true">🪣</span><b>Vai ou não vai?</b><small>Duas caixas.</small><span class="age">1.º e 2.º anos</span></button>
-      <button class="lvl" id="mHard" type="button"><span class="chip" aria-hidden="true">🍂</span><b>Verde, castanho ou não vai?</b><small>Três caixas e a regra do equilíbrio.</small><span class="age">3.º e 4.º anos</span></button>
+      <button class="lvl" id="mEasy" type="button"><span class="chip" aria-hidden="true">🪣</span><b>Depositar ou não?</b><small>Duas caixas.</small><span class="age">1.º e 2.º anos</span></button>
+      <button class="lvl" id="mHard" type="button"><span class="chip" aria-hidden="true">🍂</span><b>Verde, castanho ou não depositar?</b><small>Três caixas e a regra do equilíbrio.</small><span class="age">3.º e 4.º anos</span></button>
       <button class="lvl" id="mPro" type="button"><span class="chip" aria-hidden="true">🪱</span><b>Mestre do compostor</b><small>Quatro destinos e perguntas sobre o compostor.</small><span class="age">2.º ciclo</span></button>
     </div>
     <p class="rule"><b>A regra de ouro:</b> misturar mais ou menos uma parte de <b>verdes</b> (húmidos, como cascas de fruta) e uma parte de <b>castanhos</b> (secos, como folhas secas). Só verdes fica húmido e cheira mal; só castanhos demora imenso tempo.</p>
@@ -306,12 +307,12 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
     </div>
   </section>
 
-  <footer>Ficha 28 e Anexo L do Manual de Apoio ao Professor do 1.º Ciclo · Mercado “À Mão de Semear” · Agrupamento de Escolas João Villaret · Escola Básica do Fanqueiro · Unidade de Cuidados na Comunidade (UCC) de Loures</footer>
+  <footer>Ficha 28 e Anexo L do Manual de Apoio ao Professor do 1.º Ciclo · Mercado “À Mão de Semear” · Agrupamento de Escolas João Villaret · Escola Básica do Fanqueiro · Unidade de Cuidados na Comunidade (UCC) de Loures<br>Regras revistas pelos Serviços Municipalizados de Água e Saneamento (SIMAR) de Loures e Odivelas, outubro de 2026 · Guia Prático de Compostagem Doméstica: <a href="https://www.simar-louresodivelas.pt/index.php/biorresiduos" target="_blank" rel="noopener">https://www.simar-louresodivelas.pt/index.php/biorresiduos</a></footer>
 </div>
 
 <script>
 (function(){
-// c: v = verde, k = castanho, x = não vai, o = pode ir, mas não é verde nem castanho (só no nível fácil)
+// c: v = verde, k = castanho, x = não depositar, o = pode ir, mas não é verde nem castanho (só no nível fácil)
 const ITEMS = [
   // Verdes: húmidos e ricos em azoto
   {e:"🍌",n:"Casca de banana",c:"v",why:"É resto de fruta crua. Vai para o compostor como verde: húmido e rico em azoto."},
@@ -322,7 +323,7 @@ const ITEMS = [
   {e:"🥔",n:"Cascas de batata crua",c:"v",why:"Cascas de legumes crus são verdes. Cozinhadas já não podiam ir."},
   {e:"🍉",n:"Casca de melancia",c:"v",why:"Resto de fruta crua, muito húmido: um verde."},
   {e:"☕",n:"Borras de café",c:"v",why:"As borras de café podem ir para o compostor e contam como verde."},
-  {e:"🍵",n:"Saquinho de chá usado",c:"v",why:"Os saquinhos de chá podem ir para o compostor e contam como verde."},
+  {e:"🍵",n:"Saquinho de chá usado, sem o agrafo",c:"v",why:"Os saquinhos de chá contam como verde, mas primeiro tira-se o agrafo metálico: o metal não se decompõe."},
   {e:"🌱",n:"Relva acabada de cortar",c:"v",why:"Relva fresca é um verde: húmida e rica em azoto."},
   {e:"💐",n:"Flores murchas",c:"v",why:"Flores murchas podem ir para o compostor e contam como verde."},
   // Castanhos: secos e ricos em carbono
@@ -347,15 +348,17 @@ const ITEMS = [
   {e:"🥫",n:"Lata de atum",c:"x",d:"e",why:"Metal não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
   {e:"🧴",n:"Garrafa de plástico",c:"x",d:"e",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
   {e:"🥤",n:"Copo de plástico com palhinha",c:"x",d:"e",why:"Plástico não se decompõe no compostor.",where:"Vai para o ecoponto amarelo."},
-  {e:"🗞️",n:"Folheto de publicidade a cores",c:"x",d:"e",why:"Só entra papel sem tinta. Papel com muita tinta fica de fora.",where:"Vai para o ecoponto azul."},
+  {e:"🗞️",n:"Folheto de publicidade a cores",c:"x",d:"e",why:"Papel colorido ou impresso não se deposita no compostor. Só papel e cartão sem tinta.",where:"Vai para o ecoponto azul."},
+  {e:"📰",n:"Jornal velho",c:"x",d:"e",why:"Papel impresso não se deposita no compostor: as tintas ficavam no composto.",where:"Vai para o ecoponto azul."},
+  {e:"🚬",n:"Beata de cigarro",c:"x",d:"l",why:"As beatas não se depositam no compostor: o filtro não se decompõe e tem substâncias tóxicas.",where:"Vai para o caixote do lixo comum, nunca para o chão."},
   {e:"🔋",n:"Pilha gasta",c:"x",d:"e",why:"Pilhas e produtos químicos nunca entram: estragavam o composto e a terra.",where:"Vai para o pilhão."}
 ];
 
 
 // Perguntas do nível do 2.º ciclo, a partir do Anexo L. A primeira opção é a certa (a ordem é baralhada no jogo).
 const QUIZ = [
-  {q:"Fizeste a prova do punhado e escorreu água. O que fazes?",o:["Junto material castanho seco","Rego um pouco","Junto mais cascas de fruta"],why:"Se escorre água, está húmido demais. Os castanhos secos equilibram a humidade."},
-  {q:"Apertas um punhado de composto e ele esfarela, sem agregar. O que fazes?",o:["Rego um pouco, porque está seco de mais","Nada, está no ponto","Junto folhas secas"],why:"Se esfarela e não agrega, está seco de mais e precisa de um pouco de água. No ponto, a mão fica húmida mas não escorre."},
+  {q:"Fizeste o teste da esponja e escorreu água. O que fazes?",o:["Junto material castanho seco","Rego um pouco","Junto mais cascas de fruta"],why:"Se escorre água, está húmido demais. Os castanhos secos equilibram a humidade."},
+  {q:"Apertas um punhado de composto e ele esfarela, sem agregar. O que fazes?",o:["Rego um pouco, porque está seco de mais","Nada, está no ponto","Junto folhas secas"],why:"Se esfarela e não agrega, está seco de mais e precisa de um pouco de água. No teste da esponja, o composto no ponto deixa a mão húmida mas não escorre água, como uma esponja espremida."},
   {q:"O compostor cheira mal. Qual é a causa mais provável?",o:["Pouco ar ou verdes a mais","Castanhos a mais","O composto já está pronto"],why:"Um compostor saudável cheira a terra de floresta. Se cheira mal, revolve-se e junta-se material castanho seco."},
   {q:"Qual deve ser sempre a última camada do compostor?",o:["Castanhos, como folhas secas","Verdes, como cascas de fruta","Terra do canteiro"],why:"Acabar com uma camada de castanhos por cima evita as moscas."},
   {q:"Onde se deve instalar o compostor?",o:["No chão, em contacto com a terra, à sombra","Em cima de um estrado, ao sol","Dentro da sala de aula"],why:"Em contacto com a terra, os seres do solo podem entrar. A sombra protege-o do calor no verão e do frio no inverno."},
@@ -367,14 +370,14 @@ const QUIZ = [
 ];
 
 const MODES = {
-  easy:{label:"Nível: Vai ou não vai?", plan:{yes:6,x:6},
-    bins:[{k:"yes",cls:"yes",ic:"🪣",lb:"Vai para o compostor",sm:"vira terra"},{k:"x",cls:"x",ic:"🚫",lb:"Não vai",sm:"fica de fora"}]},
-  hard:{label:"Nível: Verde, castanho ou não vai?", plan:{v:4,k:4,x:4},
-    bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"húmido, azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"seco, carbono"},{k:"x",cls:"x",ic:"🚫",lb:"Não vai",sm:"fica de fora"}]},
+  easy:{label:"Nível: Depositar ou não?", plan:{yes:6,x:6},
+    bins:[{k:"yes",cls:"yes",ic:"🪣",lb:"Depositar no compostor",sm:"vira terra"},{k:"x",cls:"x",ic:"🚫",lb:"Não depositar",sm:"fica de fora"}]},
+  hard:{label:"Nível: Verde, castanho ou não depositar?", plan:{v:4,k:4,x:4},
+    bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"húmido, azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"seco, carbono"},{k:"x",cls:"x",ic:"🚫",lb:"Não depositar",sm:"fica de fora"}]},
   pro:{label:"Nível: Mestre do compostor (2.º ciclo)",
     bins:[{k:"v",cls:"v",ic:"🍃",lb:"Verde",sm:"compostor · azoto"},{k:"k",cls:"c",ic:"🍂",lb:"Castanho",sm:"compostor · carbono"},{k:"e",cls:"e",ic:"♻️",lb:"Ecoponto ou pilhão",sm:"recicla-se"},{k:"l",cls:"l",ic:"🗑️",lb:"Lixo comum",sm:"caixote indiferenciado"}]}
 };
-const NAME = {v:"um verde",k:"um castanho",o:"vai para o compostor",x:"não vai para o compostor",e:"vai para o ecoponto ou pilhão",l:"vai para o lixo comum"};
+const NAME = {v:"um verde",k:"um castanho",o:"pode ser depositado no compostor",x:"não pode ser depositado no compostor",e:"vai para o ecoponto ou pilhão",l:"vai para o lixo comum"};
 
 const $ = id => document.getElementById(id);
 let S = null;
